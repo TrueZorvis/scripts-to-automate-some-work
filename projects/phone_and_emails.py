@@ -10,8 +10,9 @@ phone_regex = re.compile(r'''(
     (\s|-|\.)?                      # разделитель
     (\d{3})                         # первые 3 цифры
     (\s|-|\.)                       # разделитель
-    (\d{4})                         # последние 4 цифры
-    (\s*(ext|x|ext.)\s*(\d{2,5}))?  # добавочный номер
+    (\d{2})                         # еще 2 цифры
+    (\s|-|\.)                       # разделитель
+    (\d{2})                         # последние 2 цифры
     )''', re.VERBOSE)
 
 # создание регулярного выражения для адресов электронной почты
@@ -26,9 +27,7 @@ email_regex = re.compile(r'''(
 text = str(pyperclip.paste())
 matches = []
 for groups in phone_regex.findall(text):
-    phone_num = '-'.join([groups[1], groups[3], groups[5]])
-    if groups[8] != '':
-        phone_num += ' x' + groups[8]
+    phone_num = '-'.join([groups[1], groups[3], groups[5], groups[7]])
     matches.append(phone_num)
 for groups in email_regex.findall(text):
     matches.append(groups[0])
